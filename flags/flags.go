@@ -16,16 +16,13 @@ func Flags() {
 
 	path, url, up, down, initial, reset, grab, help, version, create := ReadFlags()
 
-	var config types.MyConfig
-	if len(url) > 0 {
-		config = UrlParse(url)
+	if help == true {
+		Help()
+		return
 	}
 
-	err := postgres.Init(config)
-	if err != nil {
-		fmt.Println("Postgres Url or Config error", err)
-		os.Exit(0)
-		//panic(err)
+	if len(url) > 0 {
+		Configuration(url)
 	}
 
 	if initial == true {
@@ -69,11 +66,6 @@ func Flags() {
 		} else {
 			fmt.Println("Current version:", i)
 		}
-		return
-	}
-
-	if help == true {
-		Help()
 		return
 	}
 
@@ -174,7 +166,22 @@ func UrlParse(s string) types.MyConfig {
 	return config
 }
 
-func Help(){
+func Configuration(url string) types.MyConfig {
+	var config types.MyConfig
+	if len(url) > 0 {
+		config = UrlParse(url)
+	}
+
+	err := postgres.Init(config)
+	if err != nil {
+		fmt.Println("Postgres Url or Config error", err)
+		os.Exit(0)
+		//panic(err)
+	}
+	return config
+}
+
+func Help() {
 	var help string = `
 Arg:
 	init		Initializing migration\n
