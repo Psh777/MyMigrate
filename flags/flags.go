@@ -14,7 +14,7 @@ import (
 
 func Flags() {
 
-	path, url, up, down, initial, reset, grab, help, version, create := ReadFlags()
+	path, url, up, down, initial, reset, grab, help, version, setcurrent, create := ReadFlags()
 
 	if help == true {
 		Help()
@@ -80,6 +80,11 @@ func Flags() {
 		return
 	}
 
+	if setcurrent > 0 {
+		make.SetCurrent(setcurrent)
+		return
+	}
+
 	if up > 0 {
 		make.MakeUp(up, path)
 		return
@@ -94,12 +99,13 @@ func Flags() {
 
 }
 
-func ReadFlags() (string, string, int, int, bool, bool, bool, bool, bool, string) {
+func ReadFlags() (string, string, int, int, bool, bool, bool, bool, bool, int, string) {
 	var url = flag.String("url", "", "placeholder")
 	var path = flag.String("path", "", "placeholder")
 	var up = flag.Int("up", 0, "placeholder")
 	var down = flag.Int("down", 0, "placeholder")
 	var create = flag.String("create", "", "placeholder")
+	var setcurrent = flag.Int("setcurrent", 0, "placeholder")
 
 	flag.Parse()
 
@@ -145,7 +151,7 @@ func ReadFlags() (string, string, int, int, bool, bool, bool, bool, bool, string
 		}
 	}
 
-	return *path, *url, *up, *down, initial, reset, grab, help, current, strings.Replace(*create, " ", "_", -1)
+	return *path, *url, *up, *down, initial, reset, grab, help, current, *setcurrent, strings.Replace(*create, " ", "_", -1)
 }
 
 func UrlParse(s string) types.MyConfig {
@@ -188,11 +194,13 @@ Arg:
 	reset		Reset migration (for reinstall)\n
 	grab		Saving data for migration\n
 	current		Current version
+	setcurrent	Set current version (without migration db)
+	setversion	Migration version (with set current version)
 
 Flags:
-	-create $subject	Create version
-	-up $version		Up version (int version id)
-	-down $version		Down version (int version id)
+	-create $subject	Create new version
+	-up $version		Migrate the DB to the request version (int version id)
+	-down $version		Roll back the version (int version id)
 
 Sample usage:
 	//dev env

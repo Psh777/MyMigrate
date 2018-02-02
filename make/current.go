@@ -14,3 +14,7 @@ func CurrentVersion() (int, error){
 	}
 	return i, nil
 }
+
+func SetCurrent(version int) {
+	postgres.SetCurrent(version)
+}
