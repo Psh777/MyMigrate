@@ -8,6 +8,9 @@ import (
 
 func Init(path string) error {
 
+	last, _ := postgres.GetCurrentVersion()
+
+	postgres.DropMainTable()
 	err := postgres.InitialTable()
 	if err == nil {
 		fmt.Println("Init migrate DB table created.")
@@ -21,5 +24,8 @@ func Init(path string) error {
 		fmt.Println("Grab file not faund. Backup not upload.")
 	}
 
+	if last > 0 {
+		postgres.SetCurrent(last)
+	}
 	return err
 }

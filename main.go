@@ -7,7 +7,7 @@ import (
 
 
 func main() {
-	fmt.Println("My migrate v. 0.01")
+	fmt.Println("My migrate v. 0.02")
 	flags.Flags()
 
 	fmt.Println("Exit")

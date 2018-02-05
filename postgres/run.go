@@ -197,3 +197,12 @@ func Grab() ([]*types.ListVersion, error) {
 	return items, nil
 }
 
+func DropMainTable() {
+	rows, err := DB.Query("DROP TABLE my_migrate_versions;")
+	if err != nil {
+		println(err)
+		return
+	}
+	defer rows.Close()
+	return
+}
