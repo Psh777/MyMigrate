@@ -205,12 +205,12 @@ Flags:
 Sample usage:
 	//dev env
 	go run main.go -url postgresql://user:password@localhost:5432/base -path init
-	go run main.go -url postgresql://user:password@localhost:5432/base -path ./sql create initial_version
+	go run main.go -url postgresql://user:password@localhost:5432/base -path ./sql -create initial_version
 	go run main.go -url postgresql://user:password@localhost:5432/base -path ./sql grab
 
 	//stage env
 	go run main.go -url postgresql://user:password@localhost:5432/base -path ./sql init
-	go run main.go -url postgresql://user:password@localhost:5432/base -path ./sql up 1
+	go run main.go -url postgresql://user:password@localhost:5432/base -path ./sql -up 1
 `
 
 	fmt.Println(help)
