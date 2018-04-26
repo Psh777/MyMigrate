@@ -54,10 +54,28 @@ func Reset() error {
 	return nil
 }
 
-func Create(subject, path string) error {
+func GetLastVersion() (int, error) {
+	row1 := DB.QueryRow("SELECT id_version FROM public.my_migrate_versions ORDER BY id_version DESC LIMIT 1;")
+
+	var count int
+
+	err := row1.Scan(&count)
+	switch {
+
+	case err == sql.ErrNoRows:
+		return 0, nil
+	case err != nil:
+		fmt.Println("LastVersion: ", err)
+		return 0, err
+	}
+
+	return count, nil
+}
+
+func Create(id int, subject, path string) error {
 
 	var version int
-	err := DB.QueryRow("INSERT INTO public.my_migrate_versions (subject, current_version) VALUES ($1, $2) RETURNING id_version;", subject, false).Scan(&version)
+	err := DB.QueryRow("INSERT INTO public.my_migrate_versions (id_version, subject, current_version) VALUES ($1, $2, $3) RETURNING id_version;", id, subject, false).Scan(&version)
 
 	switch {
 
