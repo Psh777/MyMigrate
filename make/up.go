@@ -27,10 +27,10 @@ func MakeUp(version int, path string) {
 		if err !=nil {
 			os.Exit(1)
 		}
-		postgres.RunSql(sql)
+		_ = postgres.RunSql(sql)
 	}
 
-	postgres.ClearCurrent()
+	_ = postgres.ClearCurrent()
 	postgres.SetCurrent(version)
 
 }

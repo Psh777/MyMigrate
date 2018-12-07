@@ -1,11 +1,11 @@
 package postgres
 
 import (
-	"os"
-	"fmt"
-	"database/sql"
-	"strconv"
 	"../types"
+	"database/sql"
+	"fmt"
+	"os"
+	"strconv"
 )
 
 func RunSql(sql []byte) error {

@@ -19,9 +19,9 @@ func Init(path string) error {
 	//restore
 	sql, err := files.Read(path + "/grab.sql")
 	if err == nil {
-		postgres.RunSql(sql)
+		_ = postgres.RunSql(sql)
 	} else {
-		fmt.Println("Grab file not faund. Backup not upload.")
+		fmt.Println("Grab file not found. Backup not upload.")
 	}
 
 	if last > 0 {
